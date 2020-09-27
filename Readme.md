@@ -6,7 +6,7 @@ Deployment steps:
 1. Unzip the folder. You will see one jar and one property file.
 2. Pre-requisites java 8.
 3. To run the program use command:  java -jar connect4-1.0.jar --spring.config.location=application.properties<location of your app prop file>
-   Or use any java IDE to import the project as a maven project and add project property --spring.config.location=application.properties<location of your app prop file> and just run it.
+   Or use any java IDE to import the project as a maven project and add project property --spring.config.location=application.properties<location of your app prop file > and just run it.
    
 API Documentation
 ============================
