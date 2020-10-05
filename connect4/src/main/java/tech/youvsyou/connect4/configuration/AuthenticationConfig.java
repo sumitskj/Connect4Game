@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import tech.youvsyou.connect4.exceptions.FilterAuthenticationException;
 import tech.youvsyou.connect4.service.BasicAuthProvider;
 
 @Configuration
@@ -24,15 +26,17 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().defaultsDisabled().cacheControl();
         http.logout().deleteCookies("JSESSIONID").logoutUrl("/v1/connect4/logout");
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.exceptionHandling().authenticationEntryPoint(new FilterAuthenticationException());
         http
-                .authorizeRequests()
-                .antMatchers("/v1/connect4/register/**","/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .headers().frameOptions().disable()
-                .and()
-                .csrf().disable();
+            .authorizeRequests()
+            .antMatchers("/v1/connect4/register/**","/h2-console/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .httpBasic()
+            .and()
+            .headers().frameOptions().disable()
+            .and()
+            .csrf().disable();
     }
 }

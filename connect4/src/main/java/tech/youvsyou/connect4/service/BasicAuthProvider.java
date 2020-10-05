@@ -8,6 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import tech.youvsyou.connect4.exceptions.AuthException;
 
@@ -30,7 +31,7 @@ public class BasicAuthProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         UserDetails user = userDetailsService.loadUserByUsername(username);
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new AuthException("Username and password are invalid!");
+            throw new AuthException("Passwords dont match");
         }
         return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
